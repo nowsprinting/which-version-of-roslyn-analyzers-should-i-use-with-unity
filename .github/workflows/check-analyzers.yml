@@ -24,21 +24,13 @@ jobs:
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
       - name: Get package versions from NuGet API
-        id: versions
         run: |
           PACKAGE_ID="${{ inputs.nuget_package_id }}"
           PACKAGE_ID_LOWER=$(echo "$PACKAGE_ID" | tr '[:upper:]' '[:lower:]')
 
-          # Get all versions
-          VERSIONS_JSON=$(curl -s "https://api.nuget.org/v3-flatcontainer/${PACKAGE_ID_LOWER}/index.json")
-          {
-            echo "versions_json=$VERSIONS_JSON"
-            echo "package_id=$PACKAGE_ID"
-            echo "package_id_lower=$PACKAGE_ID_LOWER"
-          } >> "$GITHUB_OUTPUT"
-
+          echo "Package: $PACKAGE_ID"
           echo "Found versions:"
-          echo "$VERSIONS_JSON" | jq -r '.versions[]'
+          curl -s "https://api.nuget.org/v3-flatcontainer/${PACKAGE_ID_LOWER}/index.json" | jq -r '.versions[]'
 
       - name: Analyze each version
         shell: pwsh
