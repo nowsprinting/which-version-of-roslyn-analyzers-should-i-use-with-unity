@@ -1,0 +1,192 @@
+name: Check Roslyn Analyzer Versions
+
+on:
+  workflow_dispatch:
+    inputs:
+      github_url:
+        description: 'GitHub repository URL of the Roslyn analyzer (e.g., https://github.com/dotnet/roslynator)'
+        required: true
+        type: string
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  check-versions:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout this repository
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+      - name: Extract repository info
+        id: repo-info
+        run: |
+          # Extract owner/repo from URL
+          REPO_PATH=$(echo "${{ inputs.github_url }}" | sed -E 's|https://github.com/||' | sed -E 's|\.git$||' | sed -E 's|/$||')
+          REPO_NAME=$(echo "$REPO_PATH" | cut -d'/' -f2)
+          echo "repo_path=$REPO_PATH" >> "$GITHUB_OUTPUT"
+          echo "repo_name=$REPO_NAME" >> "$GITHUB_OUTPUT"
+
+      - name: Clone target repository
+        run: |
+          git clone --no-checkout "${{ inputs.github_url }}" target-repo
+          cd target-repo
+          git fetch --tags
+
+      - name: Analyze versions
+        run: |
+          cd target-repo
+
+          # Get all tags and filter semantic versions
+          TAGS=$(git tag | grep -E '^v?[0-9]+\.[0-9]+(\.[0-9]+)?(-.*)?$|^release[-/]?v?[0-9]+\.[0-9]+(\.[0-9]+)?(-.*)?$' | sort -V)
+
+          # Output file for collected data
+          DATA_FILE="../version-data.json"
+          echo '{"assemblies":{}}' > "$DATA_FILE"
+
+          for TAG in $TAGS; do
+            echo "Processing tag: $TAG"
+            git checkout --quiet "$TAG" 2>/dev/null || continue
+
+            # Find .csproj files that reference Microsoft.CodeAnalysis.CSharp
+            CSPROJ_FILES=$(grep -rl "Microsoft\.CodeAnalysis\.CSharp" --include="*.csproj" . 2>/dev/null || true)
+
+            for CSPROJ in $CSPROJ_FILES; do
+              # Get assembly name (PackageId or filename)
+              ASSEMBLY_NAME=$(grep -oP '(?<=<PackageId>)[^<]+' "$CSPROJ" 2>/dev/null || basename "$CSPROJ" .csproj)
+
+              # Get package version
+              PKG_VERSION=$(grep -oP '(?<=<Version>)[^<]+' "$CSPROJ" 2>/dev/null || \
+                           grep -oP '(?<=<PackageVersion>)[^<]+' "$CSPROJ" 2>/dev/null || \
+                           echo "")
+
+              # Skip if no version found
+              [ -z "$PKG_VERSION" ] && continue
+
+              # Get Microsoft.CodeAnalysis.CSharp version
+              ROSLYN_VERSION=$(grep -oP 'Include="Microsoft\.CodeAnalysis\.CSharp"[^>]*Version="[^"]*"' "$CSPROJ" 2>/dev/null | \
+                              grep -oP 'Version="[^"]*"' | \
+                              grep -oP '"[^"]*"' | tr -d '"' || echo "")
+
+              # Also check for PackageReference with separate Version attribute
+              if [ -z "$ROSLYN_VERSION" ]; then
+                ROSLYN_VERSION=$(grep -A1 'Include="Microsoft\.CodeAnalysis\.CSharp"' "$CSPROJ" 2>/dev/null | \
+                                grep -oP '(?<=<Version>)[^<]+' || echo "")
+              fi
+
+              [ -z "$ROSLYN_VERSION" ] && continue
+
+              echo "  Found: $ASSEMBLY_NAME v$PKG_VERSION -> Roslyn $ROSLYN_VERSION"
+
+              # Append to data file using jq
+              jq --arg asm "$ASSEMBLY_NAME" \
+                 --arg ver "$PKG_VERSION" \
+                 --arg roslyn "$ROSLYN_VERSION" \
+                 '.assemblies[$asm] += [{"version": $ver, "roslyn": $roslyn}]' \
+                 "$DATA_FILE" > tmp.json && mv tmp.json "$DATA_FILE"
+            done
+          done
+
+          cat "$DATA_FILE"
+
+      - name: Generate Markdown
+        run: |
+          REPO_NAME="${{ steps.repo-info.outputs.repo_name }}"
+          GITHUB_URL="${{ inputs.github_url }}"
+          DATA_FILE="version-data.json"
+          OUTPUT_FILE="${REPO_NAME}.md"
+
+          # Start building the markdown file
+          echo "# ${REPO_NAME}" > "$OUTPUT_FILE"
+          echo "" >> "$OUTPUT_FILE"
+
+          # Process each assembly
+          ASSEMBLIES=$(jq -r '.assemblies | keys[]' "$DATA_FILE" 2>/dev/null || echo "")
+          ASSEMBLY_COUNT=$(echo "$ASSEMBLIES" | grep -c . || echo "0")
+
+          FIRST_ASSEMBLY=true
+          for ASSEMBLY in $ASSEMBLIES; do
+            NUGET_URL="https://www.nuget.org/packages/$ASSEMBLY"
+
+            if [ "$ASSEMBLY_COUNT" -eq 1 ]; then
+              # Single assembly: add URLs at the top
+              {
+                echo "- NuGet: ${NUGET_URL}"
+                echo "- GitHub: ${GITHUB_URL}"
+              } >> "$OUTPUT_FILE"
+            else
+              # Multiple assemblies: add section header
+              if [ "$FIRST_ASSEMBLY" = true ]; then
+                echo "- GitHub: ${GITHUB_URL}" >> "$OUTPUT_FILE"
+                FIRST_ASSEMBLY=false
+              fi
+              {
+                echo ""
+                echo "## ${ASSEMBLY}"
+                echo ""
+                echo "- NuGet: ${NUGET_URL}"
+              } >> "$OUTPUT_FILE"
+            fi
+
+            # Add table header
+            {
+              echo ""
+              echo "| Version | Microsoft.CodeAnalysis.CSharp | Unity 2020.2 | Unity 2021.2 | Unity 2022.1 | Unity 6000.0 |"
+              echo "|---------|-------------------------------|--------------|--------------|--------------|--------------|"
+            } >> "$OUTPUT_FILE"
+
+            # Get version data and sort by version descending, then generate rows
+            jq -r --arg asm "$ASSEMBLY" \
+              '.assemblies[$asm] | unique_by(.version) | sort_by(.version | split(".") | map(tonumber? // 0)) | reverse[] | "\(.version)|\(.roslyn)"' \
+              "$DATA_FILE" 2>/dev/null > temp_versions.txt
+
+            while IFS='|' read -r VER ROSLYN; do
+              # Extract major.minor from Roslyn version
+              ROSLYN_MAJOR=$(echo "$ROSLYN" | cut -d'.' -f1)
+              ROSLYN_MINOR=$(echo "$ROSLYN" | cut -d'.' -f2)
+              ROSLYN_NUM=$((ROSLYN_MAJOR * 100 + ROSLYN_MINOR))
+
+              # Unity 2020.2: 3.5 (305), Unity 2021.2: 3.8 (308), Unity 2022.1: 3.11 (311), Unity 6000.0: 4.3 (403)
+              [ "$ROSLYN_NUM" -le 305 ] && U2020="✅" || U2020="❌"
+              [ "$ROSLYN_NUM" -le 308 ] && U2021="✅" || U2021="❌"
+              [ "$ROSLYN_NUM" -le 311 ] && U2022="✅" || U2022="❌"
+              [ "$ROSLYN_NUM" -le 403 ] && U6000="✅" || U6000="❌"
+
+              echo "| ${VER} | ${ROSLYN} | ${U2020} | ${U2021} | ${U2022} | ${U6000} |" >> "$OUTPUT_FILE"
+            done < temp_versions.txt
+
+            rm -f temp_versions.txt
+          done
+
+          echo "" >> "$OUTPUT_FILE"
+          echo "Note: Newer versions of Microsoft.CodeAnalysis.CSharp may be backported to LTS releases. For example, Microsoft.CodeAnalysis.CSharp v4.3 is available in Unity 2022.3.12f1 and later." >> "$OUTPUT_FILE"
+
+          echo "=== Generated Markdown ==="
+          cat "$OUTPUT_FILE"
+
+      - name: Create Pull Request
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          REPO_NAME="${{ steps.repo-info.outputs.repo_name }}"
+          BRANCH_NAME="update-${REPO_NAME}"
+
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git checkout -b "$BRANCH_NAME"
+          git add "${REPO_NAME}.md"
+          git commit -m "Update ${REPO_NAME} analyzer version info"
+          git push -u origin "$BRANCH_NAME" --force
+
+          gh pr create \
+            --title "Update ${REPO_NAME} analyzer version info" \
+            --body "$(cat <<EOF
+          This PR updates the version compatibility information for ${REPO_NAME}.
+
+          Source: ${{ inputs.github_url }}
+          EOF
+          )" \
+            --base master \
+            --head "$BRANCH_NAME" || echo "PR already exists or failed to create"
