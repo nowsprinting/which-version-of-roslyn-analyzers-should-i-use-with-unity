@@ -29,5 +29,5 @@ Want to add a new analyzer or update version information?
 2. **Run the workflow** in your fork:
    - Go to Actions > "Check Roslyn Analyzer Versions"
    - Click "Run workflow"
-   - Enter the GitHub repository URL of the analyzer (e.g., `https://github.com/dotnet/roslynator`)
+   - Enter the NuGet package ID (e.g., `IDisposableAnalyzers`)
 3. The workflow will create a Pull Request in your fork. **Change the base repository** to this upstream repository when submitting.
