@@ -53,8 +53,8 @@ jobs:
             echo "Processing tag: $TAG"
             git checkout --quiet "$TAG" 2>/dev/null || continue
 
-            # Find .csproj files that reference Microsoft.CodeAnalysis.CSharp
-            CSPROJ_FILES=$(grep -rl "Microsoft\.CodeAnalysis\.CSharp" --include="*.csproj" . 2>/dev/null || true)
+            # Find .csproj files that reference Microsoft.CodeAnalysis.CSharp or Microsoft.CodeAnalysis.CSharp.Workspaces
+            CSPROJ_FILES=$(grep -rlE "Microsoft\.CodeAnalysis\.CSharp(\.Workspaces)?\"" --include="*.csproj" . 2>/dev/null || true)
 
             for CSPROJ in $CSPROJ_FILES; do
               # Get assembly name (PackageId or filename)
@@ -68,14 +68,27 @@ jobs:
               # Skip if no version found
               [ -z "$PKG_VERSION" ] && continue
 
-              # Get Microsoft.CodeAnalysis.CSharp version
+              # Get Microsoft.CodeAnalysis.CSharp or Microsoft.CodeAnalysis.CSharp.Workspaces version
+              # Try Microsoft.CodeAnalysis.CSharp first
               ROSLYN_VERSION=$(grep -oP 'Include="Microsoft\.CodeAnalysis\.CSharp"[^>]*Version="[^"]*"' "$CSPROJ" 2>/dev/null | \
                               grep -oP 'Version="[^"]*"' | \
                               grep -oP '"[^"]*"' | tr -d '"' || echo "")
 
+              # Try Microsoft.CodeAnalysis.CSharp.Workspaces if not found
+              if [ -z "$ROSLYN_VERSION" ]; then
+                ROSLYN_VERSION=$(grep -oP 'Include="Microsoft\.CodeAnalysis\.CSharp\.Workspaces"[^>]*Version="[^"]*"' "$CSPROJ" 2>/dev/null | \
+                                grep -oP 'Version="[^"]*"' | \
+                                grep -oP '"[^"]*"' | tr -d '"' || echo "")
+              fi
+
               # Also check for PackageReference with separate Version attribute
               if [ -z "$ROSLYN_VERSION" ]; then
                 ROSLYN_VERSION=$(grep -A1 'Include="Microsoft\.CodeAnalysis\.CSharp"' "$CSPROJ" 2>/dev/null | \
+                                grep -oP '(?<=<Version>)[^<]+' || echo "")
+              fi
+
+              if [ -z "$ROSLYN_VERSION" ]; then
+                ROSLYN_VERSION=$(grep -A1 'Include="Microsoft\.CodeAnalysis\.CSharp\.Workspaces"' "$CSPROJ" 2>/dev/null | \
                                 grep -oP '(?<=<Version>)[^<]+' || echo "")
               fi
 
