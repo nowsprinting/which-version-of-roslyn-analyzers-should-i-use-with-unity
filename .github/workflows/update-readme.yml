@@ -1,9 +1,12 @@
-name: Update README
+name: Update README.md
 
 on:
   push:
     branches:
       - master
+    paths:
+      - '*.md'
+      - '!README.md'
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
@@ -69,6 +72,6 @@ jobs:
           if git diff --staged --quiet; then
             echo "No changes to commit"
           else
-            git commit -m "Update analyzer links in README"
+            git commit -m "Update analyzer links in README.md"
             git push
           fi

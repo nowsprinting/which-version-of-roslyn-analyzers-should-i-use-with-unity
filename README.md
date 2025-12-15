@@ -6,11 +6,11 @@ Unity uses specific versions of Microsoft.CodeAnalysis.CSharp, which means not a
 
 ## Supported Unity Versions
 
-| Unity Version | Microsoft.CodeAnalysis.CSharp |
-|---------------|-------------------------------|
-| Unity 2020.2  | 3.5                           |
-| Unity 2021.2  | 3.8                           |
-| Unity 6000.0  | 4.3                           |
+| Unity Version | Microsoft.CodeAnalysis.CSharp                                                                                                             |
+|---------------|-------------------------------------------------------------------------------------------------------------------------------------------|
+| Unity 2020.2  | 3.5                                                                                                                                       |
+| Unity 2021.2  | 3.8 (see: [Manual: Roslyn analyzers and source generators](https://docs.unity3d.com/2021.2/Documentation/Manual/roslyn-analyzers.html))   |
+| Unity 6000.0  | 4.3 (see: [Manual: Create and use a source generator](https://docs.unity3d.com/6000.0/Documentation/Manual/create-source-generator.html)) |
 
 Note: Newer versions of Microsoft.CodeAnalysis.CSharp may be backported to LTS releases. For example, Microsoft.CodeAnalysis.CSharp v4.3 is available in Unity 2022.3.12f1 and later.
 
