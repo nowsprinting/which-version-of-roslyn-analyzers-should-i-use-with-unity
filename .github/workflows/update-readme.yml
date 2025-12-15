@@ -1,0 +1,74 @@
+name: Update README
+
+on:
+  push:
+    branches:
+      - master
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  update-readme:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
+
+      - name: Update README with analyzer links
+        shell: bash
+        run: |
+          # Find all .md files in root directory (excluding README.md)
+          md_files=$(find . -maxdepth 1 -name "*.md" ! -name "README.md" -printf "%f\n" | sort)
+
+          # Build links to temp file
+          : > /tmp/links.txt
+          for file in $md_files; do
+            name="${file%.md}"
+            echo "- [${name}](${file})" >> /tmp/links.txt
+          done
+
+          # Find line number of the marker comment
+          marker_line=$(grep -n '<!-- Add links to analyzer files here as they are created -->' README.md | cut -d: -f1)
+
+          if [ -z "$marker_line" ]; then
+            echo "Marker comment not found in README.md"
+            exit 1
+          fi
+
+          # Extract content before and after links section
+          {
+            # Lines up to and including the marker
+            head -n "$marker_line" README.md
+
+            # Add new links
+            cat /tmp/links.txt
+
+            # Skip old links (lines starting with "- [") and first empty line after marker
+            tail -n +"$((marker_line + 1))" README.md | awk '
+              NR == 1 && /^$/ { next }
+              /^- \[/ { next }
+              { found = 1 }
+              found { print }
+            '
+          } > README.md.tmp
+
+          mv README.md.tmp README.md
+          rm -f /tmp/links.txt
+
+      - name: Commit and push if changed
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          git add README.md
+          if git diff --staged --quiet; then
+            echo "No changes to commit"
+          else
+            git commit -m "Update analyzer links in README"
+            git push
+          fi

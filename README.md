@@ -19,6 +19,8 @@ Note: Newer versions of Microsoft.CodeAnalysis.CSharp may be backported to LTS r
 Check the markdown files in this repository for compatibility information on specific analyzers:
 
 <!-- Add links to analyzer files here as they are created -->
+- [IDisposableAnalyzers](IDisposableAnalyzers.md)
+- [NUnit.Analyzers](NUnit.Analyzers.md)
 
 ## Contributing
 
@@ -26,7 +28,8 @@ Want to add a new analyzer or update version information?
 
 1. **Fork this repository**
 2. **Run the workflow** in your fork:
-   - Go to Actions > "Check Roslyn Analyzer Versions"
-   - Click "Run workflow"
+   - Go to **Actions > Check Roslyn Analyzer Versions**
+   - Click **Run workflow**
    - Enter the NuGet package ID (e.g., `Microsoft.Unity.Analyzers`)
+   - Click **Run workflow**
 3. The workflow will create a Pull Request in your fork. **Change the base repository** to this upstream repository when submitting.
