@@ -12,8 +12,7 @@
 次の内容を記載します。
 
 1. アナライザの名称
-2. NuGet GalleryのURL
-3. Unityの各バージョンで利用できるアナライザバージョンの表
+2. Unityの各バージョンで利用できるアナライザバージョンの表（各バージョンはNuGetへのリンク）
 
 Unityの各バージョンで利用できる Microsoft.CodeAnalysis.Csharp バージョンは次のとおりです。
 
@@ -29,12 +28,12 @@ Note: Newer versions of Microsoft.CodeAnalysis.CSharp may be backported to LTS r
 ```markdown
 # {アナライザ名}
 
-- NuGet: {NuGet GalleryのURL}
-
 | Version | Microsoft.CodeAnalysis.CSharp | Unity 2020.2 | Unity 2021.2 | Unity 2022.1 | Unity 6000.0 |
 |---------|-------------------------------|--------------|--------------|--------------|--------------|
-| x.x.x   | x.x.x                         | ✅ / ❌      | ✅ / ❌      | ✅ / ❌      | ✅ / ❌      |
+| x.x.x   | x.x.x.x                       | ✅ / ❌      | ✅ / ❌      | ✅ / ❌      | ✅ / ❌      |
 ```
+
+バージョン番号はNuGet Galleryへのハイパーリンク
 
 ## GitHub Actionsワークフロー
 

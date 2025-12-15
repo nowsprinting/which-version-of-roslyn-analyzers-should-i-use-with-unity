@@ -121,8 +121,6 @@ jobs:
           $md = @()
           $md += "# $packageId"
           $md += ""
-          $md += "- NuGet: $nugetUrl"
-          $md += ""
           $md += "| Version | Microsoft.CodeAnalysis.CSharp | Unity 2020.2 | Unity 2021.2 | Unity 2022.1 | Unity 6000.0 |"
           $md += "|---------|-------------------------------|--------------|--------------|--------------|--------------|"
 
@@ -140,11 +138,12 @@ jobs:
             $u2022 = if ($roslynVer -le $unityVersions["Unity 2022.1"]) { "✅" } else { "❌" }
             $u6000 = if ($roslynVer -le $unityVersions["Unity 6000.0"]) { "✅" } else { "❌" }
 
-            $md += "| $ver | $roslyn | $u2020 | $u2021 | $u2022 | $u6000 |"
+            $md += "| [$ver]($nugetUrl/$ver) | $roslyn | $u2020 | $u2021 | $u2022 | $u6000 |"
           }
 
           $md += ""
-          $md += "Note: Newer versions of Microsoft.CodeAnalysis.CSharp may be backported to LTS releases. For example, Microsoft.CodeAnalysis.CSharp v4.3 is available in Unity 2022.3.12f1 and later."
+          $md += "> [!NOTE]  "
+          $md += "> Newer versions of Microsoft.CodeAnalysis.CSharp may be backported to LTS releases. For example, Microsoft.CodeAnalysis.CSharp v4.3 is available in Unity 2022.3.12f1 and later."
 
           # Write file
           $md | Out-File -FilePath $outputFile -Encoding utf8
