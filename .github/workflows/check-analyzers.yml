@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       nuget_package_id:
-        description: 'NuGet package ID (e.g., IDisposableAnalyzers)'
+        description: 'NuGet package ID (e.g., Microsoft.Unity.Analyzers)'
         required: true
         type: string
 
@@ -106,8 +106,8 @@ jobs:
           $nugetUrl = "https://www.nuget.org/packages/$packageId"
           $outputFile = "$packageId.md"
 
-          # Unity version thresholds
-          $unityVersions = @{
+          # Unity version thresholds (ordered for table column order)
+          $unityVersions = [ordered]@{
             "Unity 2020.2" = [Version]"3.5.0.0"
             "Unity 2021.2" = [Version]"3.8.0.0"
             "Unity 2022.1" = [Version]"3.11.0.0"
@@ -121,8 +121,13 @@ jobs:
           $md = @()
           $md += "# $packageId"
           $md += ""
-          $md += "| Version | Microsoft.CodeAnalysis.CSharp | Unity 2020.2 | Unity 2021.2 | Unity 2022.1 | Unity 6000.0 |"
-          $md += "|---------|-------------------------------|--------------|--------------|--------------|--------------|"
+
+          # Build header dynamically from $unityVersions keys
+          $unityNames = @($unityVersions.Keys)
+          $headerCells = @("Version", "Microsoft.CodeAnalysis.CSharp") + $unityNames
+          $md += "| " + ($headerCells -join " | ") + " |"
+          $separatorCells = @("---------", "-------------------------------") + ($unityNames | ForEach-Object { "--------------" })
+          $md += "|" + ($separatorCells -join "|") + "|"
 
           # Sort by version descending
           $sortedData = $data | Sort-Object { [Version]$_.Version } -Descending
@@ -132,13 +137,12 @@ jobs:
             $roslyn = $item.RoslynVersion
             $roslynVer = [Version]$roslyn
 
-            # Check compatibility
-            $u2020 = if ($roslynVer -le $unityVersions["Unity 2020.2"]) { "✅" } else { "❌" }
-            $u2021 = if ($roslynVer -le $unityVersions["Unity 2021.2"]) { "✅" } else { "❌" }
-            $u2022 = if ($roslynVer -le $unityVersions["Unity 2022.1"]) { "✅" } else { "❌" }
-            $u6000 = if ($roslynVer -le $unityVersions["Unity 6000.0"]) { "✅" } else { "❌" }
+            # Check compatibility dynamically for each Unity version
+            $compatCells = foreach ($unityName in $unityNames) {
+              if ($roslynVer -le $unityVersions[$unityName]) { "✅" } else { "❌" }
+            }
 
-            $md += "| [$ver]($nugetUrl/$ver) | $roslyn | $u2020 | $u2021 | $u2022 | $u6000 |"
+            $md += "| [$ver]($nugetUrl/$ver) | $roslyn | " + ($compatCells -join " | ") + " |"
           }
 
           $md += ""
