@@ -165,11 +165,11 @@ jobs:
 
           git checkout -b "$BRANCH_NAME"
           git add "${PACKAGE_ID}.md"
-          git commit -m "Update ${PACKAGE_ID} analyzer version info"
+          git commit -m "Update ${PACKAGE_ID} version info"
           git push -u origin "$BRANCH_NAME" --force
 
           gh pr create \
-            --title "Update ${PACKAGE_ID} analyzer version info" \
+            --title "Update ${PACKAGE_ID} version info" \
             --body "This PR updates the version compatibility information for ${PACKAGE_ID}." \
             --base master \
             --head "$BRANCH_NAME" || echo "PR already exists or failed to create"
