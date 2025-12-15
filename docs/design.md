@@ -18,7 +18,6 @@ Unityの各バージョンで利用できる Microsoft.CodeAnalysis.Csharp バ�
 
 * Unity 2020.2: Microsoft.CodeAnalysis.Csharp v3.5
 * Unity 2021.2: v3.8
-* Unity 2022.1: v3.11
 * Unity 6000.0: v4.3
 
 Note: Newer versions of Microsoft.CodeAnalysis.CSharp may be backported to LTS releases. For example, Microsoft.CodeAnalysis.CSharp v4.3 is available in Unity 2022.3.12f1 and later.
@@ -28,9 +27,9 @@ Note: Newer versions of Microsoft.CodeAnalysis.CSharp may be backported to LTS r
 ```markdown
 # {アナライザ名}
 
-| Version | Microsoft.CodeAnalysis.CSharp | Unity 2020.2 | Unity 2021.2 | Unity 2022.1 | Unity 6000.0 |
-|---------|-------------------------------|--------------|--------------|--------------|--------------|
-| x.x.x   | x.x.x.x                       | ✅ / ❌      | ✅ / ❌      | ✅ / ❌      | ✅ / ❌      |
+| Version | Microsoft.CodeAnalysis.CSharp | Unity 2020.2 | Unity 2021.2 | Unity 6000.0 |
+|---------|-------------------------------|--------------|--------------|--------------|
+| x.x.x   | x.x.x.x                       | ✅ / ❌      | ✅ / ❌      | ✅ / ❌      |
 ```
 
 バージョン番号はNuGet Galleryへのハイパーリンク
