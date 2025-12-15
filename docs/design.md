@@ -51,6 +51,7 @@ Note: Newer versions of Microsoft.CodeAnalysis.CSharp may be backported to LTS r
 1. on.workflow_dispatch で手動実行されます
 2. NuGet API を使用して、指定されたパッケージの全バージョン一覧を取得します
    - `https://api.nuget.org/v3-flatcontainer/{package-id}/index.json`
+   - semverにハイフンを含むバージョン（プレリリース版など）は除外します
 3. 各バージョンに対して次の処理を行います
    1. .nupkg ファイルをダウンロードします
       - `https://api.nuget.org/v3-flatcontainer/{package-id}/{version}/{package-id}.{version}.nupkg`

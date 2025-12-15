@@ -23,24 +23,19 @@ jobs:
       - name: Checkout this repository
         uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4
 
-      - name: Get package versions from NuGet API
-        run: |
-          PACKAGE_ID="${{ inputs.nuget_package_id }}"
-          PACKAGE_ID_LOWER=$(echo "$PACKAGE_ID" | tr '[:upper:]' '[:lower:]')
-
-          echo "Package: $PACKAGE_ID"
-          echo "Found versions:"
-          curl -s "https://api.nuget.org/v3-flatcontainer/${PACKAGE_ID_LOWER}/index.json" | jq -r '.versions[]'
-
       - name: Analyze each version
         shell: pwsh
         run: |
           $packageId = "${{ inputs.nuget_package_id }}"
           $packageIdLower = $packageId.ToLower()
 
-          # Get versions
+          # Get versions (excluding pre-releases with hyphen in semver)
           $versionsJson = Invoke-RestMethod "https://api.nuget.org/v3-flatcontainer/$packageIdLower/index.json"
-          $versions = $versionsJson.versions
+          $versions = $versionsJson.versions | Where-Object { $_ -notmatch '-' }
+
+          Write-Host "Package: $packageId"
+          Write-Host "Found versions (excluding pre-releases):"
+          $versions | ForEach-Object { Write-Host "  $_" }
 
           # Result array
           $results = @()
