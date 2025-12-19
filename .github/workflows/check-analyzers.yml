@@ -172,6 +172,16 @@ jobs:
           Write-Host "Generated $outputFile"
           Get-Content $outputFile
 
+      - name: Check for changes
+        run: |
+          PACKAGE_ID="${{ inputs.nuget_package_id }}"
+          if git diff --quiet "${PACKAGE_ID}.md"; then
+            echo "## No Changes" >> "$GITHUB_STEP_SUMMARY"
+            echo "" >> "$GITHUB_STEP_SUMMARY"
+            echo "No changes detected for [${PACKAGE_ID}](https://www.nuget.org/packages/${PACKAGE_ID}). The version information is already up to date." >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
+
       - name: Create Pull Request
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
