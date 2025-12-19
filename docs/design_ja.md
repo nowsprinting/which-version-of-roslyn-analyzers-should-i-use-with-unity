@@ -17,7 +17,8 @@
 Unityの各バージョンで利用できる Microsoft.CodeAnalysis.Csharp バージョンは次のとおりです。
 
 * Unity 2020.2: Microsoft.CodeAnalysis.Csharp v3.5
-* Unity 2021.2: v3.8
+* Unity 2021.2: v3.9
+* Unity 2022.2: v4.1
 * Unity 6000.0: v4.3
 
 Note: Newer versions of Microsoft.CodeAnalysis.CSharp may be backported to LTS releases. For example, Microsoft.CodeAnalysis.CSharp v4.3 is available in Unity 2022.3.12f1 and later.
@@ -27,9 +28,9 @@ Note: Newer versions of Microsoft.CodeAnalysis.CSharp may be backported to LTS r
 ```markdown
 # {アナライザ名}
 
-| Version | Microsoft.CodeAnalysis.CSharp | Unity 2020.2 | Unity 2021.2 | Unity 6000.0 |
-|---------|-------------------------------|--------------|--------------|--------------|
-| x.x.x   | x.x.x.x                       | ✅ / ❌      | ✅ / ❌      | ✅ / ❌      |
+| Version | Microsoft.CodeAnalysis.CSharp | Unity 2020.2 | Unity 2021.2 | Unity 2022.2 | Unity 6000.0 |
+|---------|-------------------------------|--------------|--------------|--------------|--------------|
+| x.x.x   | x.x.x.x                       | ✅ / ❌      | ✅ / ❌      | ✅ / ❌      | ✅ / ❌      |
 ```
 
 バージョン番号はNuGet Galleryへのハイパーリンク
@@ -47,8 +48,9 @@ Note: Newer versions of Microsoft.CodeAnalysis.CSharp may be backported to LTS r
 ### 処理フロー
 
 1. on.workflow_dispatch で手動実行されます
-2. NuGet API を使用して、指定されたパッケージの全バージョン一覧を取得します
-   - `https://api.nuget.org/v3-flatcontainer/{package-id}/index.json`
+2. NuGet Registration API を使用して、指定されたパッケージの公開バージョン一覧を取得します
+   - `https://api.nuget.org/v3/registration5-gz-semver2/{package-id}/index.json`
+   - unlisted（非公開）バージョンは除外します（`listed: false`）
    - semverにハイフンを含むバージョン（プレリリース版など）は除外します
 3. 各バージョンに対して次の処理を行います
    1. .nupkg ファイルをダウンロードします

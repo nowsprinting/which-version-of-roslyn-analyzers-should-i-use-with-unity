@@ -25,12 +25,34 @@ jobs:
           $packageId = "${{ inputs.nuget_package_id }}"
           $packageIdLower = $packageId.ToLower()
 
-          # Get versions (excluding pre-releases with hyphen in semver)
-          $versionsJson = Invoke-RestMethod "https://api.nuget.org/v3-flatcontainer/$packageIdLower/index.json"
-          $versions = $versionsJson.versions | Where-Object { $_ -notmatch '-' }
+          # Get versions using Registration API (excludes unlisted packages)
+          $regUrl = "https://api.nuget.org/v3/registration5-gz-semver2/$packageIdLower/index.json"
+          $regIndex = Invoke-RestMethod $regUrl
+
+          $versions = @()
+
+          foreach ($page in $regIndex.items) {
+            # Check if page items are inline or need separate fetch
+            $pageItems = $page.items
+            if (-not $pageItems) {
+              $pageData = Invoke-RestMethod $page.'@id'
+              $pageItems = $pageData.items
+            }
+
+            foreach ($item in $pageItems) {
+              $entry = $item.catalogEntry
+              $version = $entry.version
+              $listed = $entry.listed
+
+              # Only include listed versions and exclude pre-releases
+              if ($listed -and $version -notmatch '-') {
+                $versions += $version
+              }
+            }
+          }
 
           Write-Host "Package: $packageId"
-          Write-Host "Found versions (excluding pre-releases):"
+          Write-Host "Found versions (excluding pre-releases and unlisted):"
           $versions | ForEach-Object { Write-Host "  $_" }
 
           # Result array
