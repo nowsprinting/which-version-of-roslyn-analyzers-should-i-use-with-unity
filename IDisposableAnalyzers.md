@@ -48,7 +48,6 @@
 | [2.0.5](https://www.nuget.org/packages/IDisposableAnalyzers/2.0.5) | 2.0.0.0 | ✅ | ✅ | ✅ | ✅ |
 | [2.0.4](https://www.nuget.org/packages/IDisposableAnalyzers/2.0.4) | 2.0.0.0 | ✅ | ✅ | ✅ | ✅ |
 | [2.0.3.3](https://www.nuget.org/packages/IDisposableAnalyzers/2.0.3.3) | 2.0.0.0 | ✅ | ✅ | ✅ | ✅ |
-| [2.0.3.2](https://www.nuget.org/packages/IDisposableAnalyzers/2.0.3.2) | 2.0.0.0 | ✅ | ✅ | ✅ | ✅ |
 | [2.0.3.1](https://www.nuget.org/packages/IDisposableAnalyzers/2.0.3.1) | 2.0.0.0 | ✅ | ✅ | ✅ | ✅ |
 | [2.0.3](https://www.nuget.org/packages/IDisposableAnalyzers/2.0.3) | 2.0.0.0 | ✅ | ✅ | ✅ | ✅ |
 | [2.0.2.2](https://www.nuget.org/packages/IDisposableAnalyzers/2.0.2.2) | 2.0.0.0 | ✅ | ✅ | ✅ | ✅ |
