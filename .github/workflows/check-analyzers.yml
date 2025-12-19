@@ -178,7 +178,7 @@ jobs:
         run: |
           PACKAGE_ID="${{ inputs.nuget_package_id }}"
           BRANCH_NAME="update-${PACKAGE_ID}"
-          UPSTREAM_REPO="${{ github.event.repository.parent.full_name || github.repository }}"
+          UPSTREAM_REPO=$(gh api "repos/${{ github.repository }}" --jq '.parent.full_name // "${{ github.repository }}"')
 
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
