@@ -178,7 +178,6 @@ jobs:
         run: |
           PACKAGE_ID="${{ inputs.nuget_package_id }}"
           BRANCH_NAME="update-${PACKAGE_ID}"
-          UPSTREAM_REPO=$(gh api "repos/${{ github.repository }}" --jq '.parent.full_name // "${{ github.repository }}"')
 
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -188,9 +187,22 @@ jobs:
           git commit -m "Update ${PACKAGE_ID} version info"
           git push -u origin "$BRANCH_NAME" --force
 
-          gh pr create \
-            --repo "$UPSTREAM_REPO" \
-            --title "Update ${PACKAGE_ID} version info" \
-            --body "This PR updates the version compatibility information for ${PACKAGE_ID}." \
-            --base master \
-            --head "${{ github.repository_owner }}:$BRANCH_NAME" || echo "PR already exists or failed to create"
+          UPSTREAM_REPO=$(gh api "repos/${{ github.repository }}" --jq '.parent.full_name // empty')
+          if [ -n "$UPSTREAM_REPO" ]; then
+            # Running from a fork - show URL for manual PR creation in workflow summary
+            {
+              echo "## Create a Pull Request"
+              echo ""
+              echo "This workflow was run from a forked repository."
+              echo "Please create a Pull Request manually by clicking the link below:"
+              echo ""
+              echo "[Create Pull Request](https://github.com/${UPSTREAM_REPO}/compare/master...${{ github.repository_owner }}:${BRANCH_NAME})"
+            } >> "$GITHUB_STEP_SUMMARY"
+          else
+            # Running from the original repository - create PR directly
+            gh pr create \
+              --title "Update ${PACKAGE_ID} version info" \
+              --body "This PR updates the version compatibility information for ${PACKAGE_ID}." \
+              --base master \
+              --head "$BRANCH_NAME" || echo "PR already exists or failed to create"
+          fi

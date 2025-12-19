@@ -60,8 +60,8 @@ Note: Newer versions of Microsoft.CodeAnalysis.CSharp may be backported to LTS r
    4. PowerShell で `[System.Reflection.Assembly]::LoadFile()` を使用し、Microsoft.CodeAnalysis.CSharp の参照バージョンを取得します
 4. すべてのバージョンの処理が終わったら、パッケージIDと同じMarkdown形式ファイルをリポジトリ直下に作成または更新します
 5. 変更を新しいブランチにコミットし、Pull Requestを作成します
-   - フォークリポジトリで実行した場合は、フォーク元リポジトリに対してPull Requestを作成します
-   - オリジナルリポジトリで実行した場合は、同一リポジトリ内でPull Requestを作成します
+   - フォークリポジトリで実行した場合は、フォーク元リポジトリへのPull Request作成用URLを表示します（手動でPRを作成してください）
+   - オリジナルリポジトリで実行した場合は、同一リポジトリ内でPull Requestを自動作成します
 
 ### 補足
 
