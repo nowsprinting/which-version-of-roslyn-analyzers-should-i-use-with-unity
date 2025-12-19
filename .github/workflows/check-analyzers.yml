@@ -190,19 +190,24 @@ jobs:
           UPSTREAM_REPO=$(gh api "repos/${{ github.repository }}" --jq '.parent.full_name // empty')
           if [ -n "$UPSTREAM_REPO" ]; then
             # Running from a fork - show URL for manual PR creation in workflow summary
+            PR_TITLE="Update ${PACKAGE_ID} version info"
+            PR_BODY="This PR updates the version compatibility information for [${PACKAGE_ID}](https://www.nuget.org/packages/${PACKAGE_ID})."
+            ENCODED_TITLE=$(printf '%s' "$PR_TITLE" | jq -sRr @uri)
+            ENCODED_BODY=$(printf '%s' "$PR_BODY" | jq -sRr @uri)
+            PR_URL="https://github.com/${UPSTREAM_REPO}/compare/master...${{ github.repository_owner }}:${BRANCH_NAME}?expand=1&title=${ENCODED_TITLE}&body=${ENCODED_BODY}"
             {
               echo "## Create a Pull Request"
               echo ""
               echo "This workflow was run from a forked repository."
               echo "Please create a Pull Request manually by clicking the link below:"
               echo ""
-              echo "[Create Pull Request](https://github.com/${UPSTREAM_REPO}/compare/master...${{ github.repository_owner }}:${BRANCH_NAME})"
+              echo "[Create Pull Request](${PR_URL})"
             } >> "$GITHUB_STEP_SUMMARY"
           else
             # Running from the original repository - create PR directly
             gh pr create \
               --title "Update ${PACKAGE_ID} version info" \
-              --body "This PR updates the version compatibility information for ${PACKAGE_ID}." \
+              --body "This PR updates the version compatibility information for [${PACKAGE_ID}](https://www.nuget.org/packages/${PACKAGE_ID})." \
               --base master \
               --head "$BRANCH_NAME" || echo "PR already exists or failed to create"
           fi
