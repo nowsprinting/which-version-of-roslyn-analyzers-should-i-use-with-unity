@@ -38,4 +38,4 @@ You can add a new analyzer or update version information by following these step
    - Click **Run workflow**
    - Enter the NuGet package ID (e.g., `Microsoft.Unity.Analyzers`)
    - Click **Run workflow**
-3. The workflow will create a Pull Request in your fork. To submit it to this repository, open the PR and **change the base repository** from your fork to this upstream repository.
+3. The workflow will automatically create a Pull Request to this upstream repository.

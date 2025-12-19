@@ -7,7 +7,7 @@
 1. リポジトリ直下にアナライザごとのMarkdown形式ファイルを置き、どのバージョンがUnityでも利用可能かを記載します
 2. GitHub Actionsによって指定されたNuGetパッケージの各バージョンで使用している Microsoft.CodeAnalysis.CSharp のバージョンを取得し、1.のMarkdown形式ファイルを更新するPull Requestを作成するワークフロー
 
-## Markdown書式
+## Markdown 書式
 
 次の内容を記載します。
 
@@ -23,14 +23,14 @@ Unityの各バージョンで利用できる Microsoft.CodeAnalysis.Csharp バ�
 
 Note: Newer versions of Microsoft.CodeAnalysis.CSharp may be backported to LTS releases. For example, Microsoft.CodeAnalysis.CSharp v4.3 is available in Unity 2022.3.12f1 and later.
 
-### Markdownファイルフォーマット例
+### Markdown ファイルフォーマット例
 
 ```markdown
 # {アナライザ名}
 
 | Version | Microsoft.CodeAnalysis.CSharp | Unity 2020.2 | Unity 2021.2 | Unity 2022.2 | Unity 6000.0 |
 |---------|-------------------------------|--------------|--------------|--------------|--------------|
-| x.x.x   | x.x.x.x                       | ✅ / ❌      | ✅ / ❌      | ✅ / ❌      | ✅ / ❌      |
+| x.x.x   | x.x.x.x                       | ✅ / ❌        | ✅ / ❌        | ✅ / ❌        | ✅ / ❌        |
 ```
 
 バージョン番号はNuGet Galleryへのハイパーリンク
@@ -41,8 +41,8 @@ Note: Newer versions of Microsoft.CodeAnalysis.CSharp may be backported to LTS r
 
 ### inputs
 
-| 名前 | 必須 | 説明 |
-|------|------|------|
+| 名前               | 必須  | 説明                                      |
+|------------------|-----|-----------------------------------------|
 | nuget_package_id | Yes | NuGetパッケージID（例: `IDisposableAnalyzers`） |
 
 ### 処理フロー
@@ -60,6 +60,8 @@ Note: Newer versions of Microsoft.CodeAnalysis.CSharp may be backported to LTS r
    4. PowerShell で `[System.Reflection.Assembly]::LoadFile()` を使用し、Microsoft.CodeAnalysis.CSharp の参照バージョンを取得します
 4. すべてのバージョンの処理が終わったら、パッケージIDと同じMarkdown形式ファイルをリポジトリ直下に作成または更新します
 5. 変更を新しいブランチにコミットし、Pull Requestを作成します
+   - フォークリポジトリで実行した場合は、フォーク元リポジトリに対してPull Requestを作成します
+   - オリジナルリポジトリで実行した場合は、同一リポジトリ内でPull Requestを作成します
 
 ### 補足
 

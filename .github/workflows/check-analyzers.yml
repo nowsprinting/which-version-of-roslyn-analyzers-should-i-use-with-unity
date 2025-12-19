@@ -178,6 +178,7 @@ jobs:
         run: |
           PACKAGE_ID="${{ inputs.nuget_package_id }}"
           BRANCH_NAME="update-${PACKAGE_ID}"
+          UPSTREAM_REPO="${{ github.event.repository.parent.full_name || github.repository }}"
 
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
@@ -188,7 +189,8 @@ jobs:
           git push -u origin "$BRANCH_NAME" --force
 
           gh pr create \
+            --repo "$UPSTREAM_REPO" \
             --title "Update ${PACKAGE_ID} version info" \
             --body "This PR updates the version compatibility information for ${PACKAGE_ID}." \
             --base master \
-            --head "$BRANCH_NAME" || echo "PR already exists or failed to create"
+            --head "${{ github.repository_owner }}:$BRANCH_NAME" || echo "PR already exists or failed to create"
