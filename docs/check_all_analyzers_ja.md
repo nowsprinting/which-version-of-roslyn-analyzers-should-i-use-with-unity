@@ -21,10 +21,9 @@
 
 #### 出力
 
-| 名前            | 型    | 説明                                                                      |
-|---------------|------|-------------------------------------------------------------------------|
-| `matrix`      | JSON | 更新が必要なアナライザIDの配列（例: `["Microsoft.Unity.Analyzers", "NUnit.Analyzers"]`） |
-| `has_updates` | bool | 更新があるかどうか（`true` / `false`）                                             |
+| 名前       | 型    | 説明                                                                      |
+|----------|------|-------------------------------------------------------------------------|
+| `matrix` | JSON | 更新が必要なアナライザIDの配列（例: `["Microsoft.Unity.Analyzers", "NUnit.Analyzers"]`） |
 
 #### 処理ステップ
 
@@ -63,7 +62,7 @@
 
 #### 条件
 
-- `needs.check-updates.outputs.has_updates == 'true'` の場合のみ実行
+- `needs.check-updates.outputs.matrix != '[]'` の場合のみ実行（更新対象がある場合）
 
 #### 設定
 

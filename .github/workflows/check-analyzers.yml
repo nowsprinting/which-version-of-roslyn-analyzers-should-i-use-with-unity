@@ -7,6 +7,12 @@ on:
         description: 'NuGet package ID (e.g., Microsoft.Unity.Analyzers)'
         required: true
         type: string
+  workflow_call:
+    inputs:
+      nuget_package_id:
+        description: 'NuGet package ID (e.g., Microsoft.Unity.Analyzers)'
+        required: true
+        type: string
 
 jobs:
   check-versions:
@@ -176,9 +182,11 @@ jobs:
         run: |
           PACKAGE_ID="${{ inputs.nuget_package_id }}"
           if git diff --quiet "${PACKAGE_ID}.md"; then
-            echo "## No Changes" >> "$GITHUB_STEP_SUMMARY"
-            echo "" >> "$GITHUB_STEP_SUMMARY"
-            echo "No changes detected for [${PACKAGE_ID}](https://www.nuget.org/packages/${PACKAGE_ID}). The version information is already up to date." >> "$GITHUB_STEP_SUMMARY"
+            {
+              echo "## No Changes"
+              echo ""
+              echo "No changes detected for [${PACKAGE_ID}](https://www.nuget.org/packages/${PACKAGE_ID}). The version information is already up to date."
+            } >> "$GITHUB_STEP_SUMMARY"
             exit 1
           fi
 

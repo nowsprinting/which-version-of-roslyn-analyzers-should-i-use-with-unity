@@ -1,0 +1,117 @@
+name: Check All Analyzers
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '0 20 * * 0'  # UTC Sunday 20:00 = JST Monday 05:00
+
+jobs:
+  check-updates:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.check.outputs.matrix }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8 # v6
+
+      - name: Check for updates
+        id: check
+        shell: pwsh
+        run: |
+          $updatesNeeded = @()
+
+          # Get analyzer markdown files (root level only, exclude README.md)
+          $mdFiles = Get-ChildItem -Path . -Filter "*.md" -File | Where-Object {
+            $_.Name -ne "README.md"
+          }
+
+          foreach ($file in $mdFiles) {
+            $packageId = $file.BaseName
+            $packageIdLower = $packageId.ToLower()
+
+            Write-Host "Checking $packageId..."
+
+            try {
+              # Get local latest version from markdown table
+              $content = Get-Content $file.FullName -Raw
+              if ($content -match '^\| \[([0-9.]+)\]' -or $content -match '\n\| \[([0-9.]+)\]') {
+                $localVersion = $Matches[1]
+                Write-Host "  Local version: $localVersion"
+              } else {
+                Write-Host "  Could not parse local version, skipping"
+                continue
+              }
+
+              # Get NuGet latest version using Registration API
+              $regUrl = "https://api.nuget.org/v3/registration5-gz-semver2/$packageIdLower/index.json"
+              $regIndex = Invoke-RestMethod $regUrl -ErrorAction Stop
+
+              $latestNuGetVersion = $null
+
+              foreach ($page in $regIndex.items) {
+                $pageItems = $page.items
+                if (-not $pageItems) {
+                  $pageData = Invoke-RestMethod $page.'@id' -ErrorAction Stop
+                  $pageItems = $pageData.items
+                }
+
+                foreach ($item in $pageItems) {
+                  $entry = $item.catalogEntry
+                  $version = $entry.version
+                  $listed = $entry.listed
+
+                  # Only include listed versions and exclude pre-releases
+                  if ($listed -and $version -notmatch '-') {
+                    if (-not $latestNuGetVersion -or ([Version]$version -gt [Version]$latestNuGetVersion)) {
+                      $latestNuGetVersion = $version
+                    }
+                  }
+                }
+              }
+
+              if ($latestNuGetVersion) {
+                Write-Host "  NuGet version: $latestNuGetVersion"
+
+                if ($localVersion -ne $latestNuGetVersion) {
+                  Write-Host "  -> Update needed!"
+                  $updatesNeeded += $packageId
+                } else {
+                  Write-Host "  -> Up to date"
+                }
+              } else {
+                Write-Host "  Could not get NuGet version, skipping"
+              }
+
+            } catch {
+              Write-Host "  Error: $_"
+              Write-Host "  Skipping $packageId"
+            }
+          }
+
+          # Output matrix as JSON array
+          $matrixJson = $updatesNeeded | ConvertTo-Json -Compress
+          if ($updatesNeeded.Count -eq 0) {
+            $matrixJson = "[]"
+          } elseif ($updatesNeeded.Count -eq 1) {
+            # ConvertTo-Json returns a string for single item, wrap in array
+            $matrixJson = "[$matrixJson]"
+          }
+
+          Write-Host ""
+          Write-Host "Updates needed: $matrixJson"
+          echo "matrix=$matrixJson" >> $env:GITHUB_OUTPUT
+
+  update-analyzers:
+    needs: check-updates
+    if: needs.check-updates.outputs.matrix != '[]'
+    strategy:
+      fail-fast: false
+      matrix:
+        nuget_package_id: ${{ fromJson(needs.check-updates.outputs.matrix) }}
+    uses: ./.github/workflows/check-analyzers.yml
+    with:
+      nuget_package_id: ${{ matrix.nuget_package_id }}
+    permissions:
+      contents: write
+      pull-requests: write
