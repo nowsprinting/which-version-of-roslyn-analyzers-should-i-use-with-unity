@@ -1,4 +1,4 @@
-name: Check All Analyzers
+name: Check Update All Analyzers
 
 on:
   workflow_dispatch:
