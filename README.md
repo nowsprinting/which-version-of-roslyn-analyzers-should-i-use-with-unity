@@ -14,7 +14,8 @@ Unity uses specific versions of Microsoft.CodeAnalysis.CSharp, which means not a
 | Unity 2021.2      | 3.9 (stated "3.8" in [Manual: Roslyn analyzers and source generators](https://docs.unity3d.com/2021.2/Documentation/Manual/roslyn-analyzers.html)) |
 | Unity 2020.2      | 3.5                                                                                                                                                |
 
-Note: Newer versions of Microsoft.CodeAnalysis.CSharp may be backported to LTS releases. For example, Microsoft.CodeAnalysis.CSharp v4.3 is available in Unity 2022.3.12f1 and later.
+> [!NOTE]  
+> `Microsoft.CodeAnalysis.CSharp` version included in the Unity editor is checked using [tools/check-unity-roslyn-version.ps1](./tools/check-unity-roslyn-version.ps1).
 
 ## Analyzer Compatibility
 
