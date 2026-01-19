@@ -2,17 +2,13 @@ name: Check Roslyn Analyzer Versions
 
 on:
   workflow_dispatch:
-    inputs:
+    inputs: &inputs
       nuget_package_id:
         description: 'NuGet package ID (e.g., Microsoft.Unity.Analyzers)'
         required: true
         type: string
   workflow_call:
-    inputs:
-      nuget_package_id:
-        description: 'NuGet package ID (e.g., Microsoft.Unity.Analyzers)'
-        required: true
-        type: string
+    inputs: *inputs
 
 jobs:
   check-versions:
