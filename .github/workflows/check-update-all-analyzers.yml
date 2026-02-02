@@ -7,7 +7,8 @@ on:
 
 jobs:
   check-updates:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
+    timeout-minutes: 5
     outputs:
       matrix: ${{ steps.check.outputs.matrix }}
 

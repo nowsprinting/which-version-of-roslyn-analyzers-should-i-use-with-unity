@@ -2,21 +2,18 @@ name: Check Roslyn Analyzer Versions
 
 on:
   workflow_dispatch:
-    inputs:
+    inputs: &inputs
       nuget_package_id:
         description: 'NuGet package ID (e.g., Microsoft.Unity.Analyzers)'
         required: true
         type: string
   workflow_call:
-    inputs:
-      nuget_package_id:
-        description: 'NuGet package ID (e.g., Microsoft.Unity.Analyzers)'
-        required: true
-        type: string
+    inputs: *inputs
 
 jobs:
   check-versions:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-slim
+    timeout-minutes: 5
     permissions:
       contents: write
       pull-requests: write
