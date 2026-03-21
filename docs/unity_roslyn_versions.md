@@ -1,5 +1,15 @@
 # Unity Roslyn Version Check Results
 
+## 6000.4.0f1
+
+| Path                                                                                                                                       | Microsoft.CodeAnalysis.CSharp |
+|--------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------|
+| /opt/unity/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.entities/Unity.Entities/SourceGenerators/Source~/Infrastructure/ | 3.8.0.0                       |
+| /opt/unity/Editor/Data/DotNetSdkRoslyn/                                                                                                    | 4.3.0.0                       |
+| /opt/unity/Editor/Data/MonoBleedingEdge/lib/mono/msbuild/Current/bin/Roslyn/                                                               | 3.7.0.0                       |
+| /opt/unity/Editor/Data/MonoBleedingEdge/lib/mono/4.5/                                                                                      | 3.7.0.0                       |
+| /opt/unity/Editor/Data/Tools/BuildPipeline/Compilation/ApiUpdater/                                                                         | 4.4.0.0                       |
+
 ## 6000.3.1f1
 
 | Path                                                                         | Microsoft.CodeAnalysis.CSharp |
