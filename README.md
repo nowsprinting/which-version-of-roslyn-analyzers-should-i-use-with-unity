@@ -23,6 +23,7 @@ Check the markdown files in this repository for compatibility information on spe
 
 <!-- Add links to analyzer files here as they are created -->
 - [IDisposableAnalyzers](IDisposableAnalyzers.md)
+- [Meziantou.Analyzer](Meziantou.Analyzer.md)
 - [Microsoft.CodeAnalysis.BannedApiAnalyzers](Microsoft.CodeAnalysis.BannedApiAnalyzers.md)
 - [Microsoft.Unity.Analyzers](Microsoft.Unity.Analyzers.md)
 - [NSubstitute.Analyzers.CSharp](NSubstitute.Analyzers.CSharp.md)
