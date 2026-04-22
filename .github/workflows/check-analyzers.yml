@@ -178,7 +178,7 @@ jobs:
       - name: Check for changes
         run: |
           PACKAGE_ID="${{ inputs.nuget_package_id }}"
-          if git diff --quiet "${PACKAGE_ID}.md"; then
+          if [ -z "$(git status --porcelain -- "${PACKAGE_ID}.md")" ]; then
             {
               echo "## No Changes"
               echo ""
