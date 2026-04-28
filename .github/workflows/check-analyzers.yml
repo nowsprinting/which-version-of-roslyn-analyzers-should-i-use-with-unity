@@ -77,10 +77,18 @@ jobs:
               Expand-Archive -Path $nupkgPath -DestinationPath $extractPath -Force
 
               # Find analyzer DLLs
-              $dllFiles = Get-ChildItem -Path $extractPath -Filter "*.dll" -Recurse | Where-Object {
+              $allAnalyzerDlls = Get-ChildItem -Path $extractPath -Filter "*.dll" -Recurse | Where-Object {
                 $_.FullName -match "analyzers"
               }
 
+              # Prefer analyzers/dotnet/cs/ (the conventional single-roslyn path).
+              # Fall back to all analyzer DLLs for packages that ship only per-roslyn subfolders.
+              $preferred = $allAnalyzerDlls | Where-Object {
+                $_.FullName -match '[/\\]analyzers[/\\]dotnet[/\\]cs[/\\][^/\\]+\.dll$'
+              }
+              $dllFiles = if ($preferred) { $preferred } else { $allAnalyzerDlls }
+
+              $collectedVersions = @()
               foreach ($dll in $dllFiles) {
                 try {
                   # Load assembly and get references
@@ -92,17 +100,22 @@ jobs:
                   $csharpRef = $refs | Where-Object { $_.Name -eq "Microsoft.CodeAnalysis.CSharp" }
 
                   if ($csharpRef) {
-                    $roslynVersion = $csharpRef.Version.ToString()
-                    Write-Host "  Found: $($dll.Name) -> Roslyn $roslynVersion"
-
-                    $results += [PSCustomObject]@{
-                      Version = $version
-                      RoslynVersion = $roslynVersion
-                    }
-                    break  # Only need one DLL per version
+                    Write-Host "  Found: $($dll.Name) -> Roslyn $($csharpRef.Version)"
+                    $collectedVersions += [Version]$csharpRef.Version.ToString()
                   }
                 } catch {
                   Write-Host "  Failed to load $($dll.Name): $_"
+                }
+              }
+
+              if ($collectedVersions.Count -gt 0) {
+                # Use the minimum Roslyn version: a package works with Unity if at least
+                # one of its DLLs targets a Roslyn version within Unity's supported range.
+                $minRoslyn = ($collectedVersions | Sort-Object)[0].ToString()
+                Write-Host "  Min Roslyn version: $minRoslyn"
+                $results += [PSCustomObject]@{
+                  Version = $version
+                  RoslynVersion = $minRoslyn
                 }
               }
 
