@@ -2,6 +2,7 @@
 
 | Version | Microsoft.CodeAnalysis.CSharp | Unity 2020.2 | Unity 2021.2 | Unity 2022.2 | Unity 6000.0 |
 |---------|-------------------------------|--------------|--------------|--------------|--------------|
+| [4.13.0](https://www.nuget.org/packages/NUnit.Analyzers/4.13.0) | 3.11.0.0 | ❌ | ❌ | ✅ | ✅ |
 | [4.12.0](https://www.nuget.org/packages/NUnit.Analyzers/4.12.0) | 3.11.0.0 | ❌ | ❌ | ✅ | ✅ |
 | [4.11.2](https://www.nuget.org/packages/NUnit.Analyzers/4.11.2) | 3.11.0.0 | ❌ | ❌ | ✅ | ✅ |
 | [4.11.1](https://www.nuget.org/packages/NUnit.Analyzers/4.11.1) | 3.11.0.0 | ❌ | ❌ | ✅ | ✅ |
@@ -15,7 +16,6 @@
 | [4.7.0](https://www.nuget.org/packages/NUnit.Analyzers/4.7.0) | 3.11.0.0 | ❌ | ❌ | ✅ | ✅ |
 | [4.6.0](https://www.nuget.org/packages/NUnit.Analyzers/4.6.0) | 3.11.0.0 | ❌ | ❌ | ✅ | ✅ |
 | [4.5.0](https://www.nuget.org/packages/NUnit.Analyzers/4.5.0) | 3.11.0.0 | ❌ | ❌ | ✅ | ✅ |
-| [4.4.0](https://www.nuget.org/packages/NUnit.Analyzers/4.4.0) | 3.11.0.0 | ❌ | ❌ | ✅ | ✅ |
 | [4.3.0](https://www.nuget.org/packages/NUnit.Analyzers/4.3.0) | 3.11.0.0 | ❌ | ❌ | ✅ | ✅ |
 | [4.2.0](https://www.nuget.org/packages/NUnit.Analyzers/4.2.0) | 3.11.0.0 | ❌ | ❌ | ✅ | ✅ |
 | [4.1.0](https://www.nuget.org/packages/NUnit.Analyzers/4.1.0) | 3.11.0.0 | ❌ | ❌ | ✅ | ✅ |
