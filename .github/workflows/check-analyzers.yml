@@ -90,21 +90,28 @@ jobs:
 
               $collectedVersions = @()
               foreach ($dll in $dllFiles) {
+                $stream = $null
+                $peReader = $null
                 try {
-                  # Load assembly and get references
-                  $bytes = [System.IO.File]::ReadAllBytes($dll.FullName)
-                  $assembly = [System.Reflection.Assembly]::Load($bytes)
-                  $refs = $assembly.GetReferencedAssemblies()
+                  $stream = [System.IO.File]::OpenRead($dll.FullName)
+                  $peReader = [System.Reflection.PortableExecutable.PEReader]::new($stream)
+                  if (-not $peReader.HasMetadata) { continue }
 
-                  # Find Microsoft.CodeAnalysis.CSharp reference
-                  $csharpRef = $refs | Where-Object { $_.Name -eq "Microsoft.CodeAnalysis.CSharp" }
-
-                  if ($csharpRef) {
-                    Write-Host "  Found: $($dll.Name) -> Roslyn $($csharpRef.Version)"
-                    $collectedVersions += [Version]$csharpRef.Version.ToString()
+                  $mdReader = $peReader.GetMetadataReader()
+                  foreach ($handle in $mdReader.AssemblyReferences) {
+                    $ref = $mdReader.GetAssemblyReference($handle)
+                    $name = $mdReader.GetString($ref.Name)
+                    if ($name -eq "Microsoft.CodeAnalysis.CSharp") {
+                      Write-Host "  Found: $($dll.Name) -> Roslyn $($ref.Version)"
+                      $collectedVersions += $ref.Version
+                      break
+                    }
                   }
                 } catch {
-                  Write-Host "  Failed to load $($dll.Name): $_"
+                  Write-Host "  Failed to read $($dll.Name): $_"
+                } finally {
+                  if ($peReader) { $peReader.Dispose() }
+                  if ($stream) { $stream.Dispose() }
                 }
               }
 
