@@ -90,23 +90,30 @@ jobs:
 
               $collectedVersions = @()
               foreach ($dll in $dllFiles) {
+                $ctx = $null
+                $stream = $null
+                $assembly = $null
                 try {
-                  # Load assembly and get references
-                  $bytes = [System.IO.File]::ReadAllBytes($dll.FullName)
-                  $assembly = [System.Reflection.Assembly]::Load($bytes)
+                  # Load into a collectible AssemblyLoadContext so it can be unloaded after inspection
+                  $ctx = [System.Runtime.Loader.AssemblyLoadContext]::new($dll.Name, $true)
+                  $stream = [System.IO.File]::OpenRead($dll.FullName)
+                  $assembly = $ctx.LoadFromStream($stream)
                   $refs = $assembly.GetReferencedAssemblies()
-
-                  # Find Microsoft.CodeAnalysis.CSharp reference
                   $csharpRef = $refs | Where-Object { $_.Name -eq "Microsoft.CodeAnalysis.CSharp" }
-
                   if ($csharpRef) {
                     Write-Host "  Found: $($dll.Name) -> Roslyn $($csharpRef.Version)"
                     $collectedVersions += [Version]$csharpRef.Version.ToString()
                   }
                 } catch {
                   Write-Host "  Failed to load $($dll.Name): $_"
+                } finally {
+                  $assembly = $null
+                  if ($stream) { $stream.Dispose() }
+                  if ($ctx) { $ctx.Unload() }
                 }
               }
+              [GC]::Collect()
+              [GC]::WaitForPendingFinalizers()
 
               if ($collectedVersions.Count -gt 0) {
                 # Use the minimum Roslyn version: a package works with Unity if at least
