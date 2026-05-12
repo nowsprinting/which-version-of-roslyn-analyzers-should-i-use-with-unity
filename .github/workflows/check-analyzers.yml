@@ -90,30 +90,30 @@ jobs:
 
               $collectedVersions = @()
               foreach ($dll in $dllFiles) {
+                $ctx = $null
                 $stream = $null
-                $peReader = $null
+                $assembly = $null
                 try {
+                  # Load into a collectible AssemblyLoadContext so it can be unloaded after inspection
+                  $ctx = [System.Runtime.Loader.AssemblyLoadContext]::new($dll.Name, $true)
                   $stream = [System.IO.File]::OpenRead($dll.FullName)
-                  $peReader = [System.Reflection.PortableExecutable.PEReader]::new($stream)
-                  if (-not $peReader.HasMetadata) { continue }
-
-                  $mdReader = $peReader.GetMetadataReader()
-                  foreach ($handle in $mdReader.AssemblyReferences) {
-                    $ref = $mdReader.GetAssemblyReference($handle)
-                    $name = $mdReader.GetString($ref.Name)
-                    if ($name -eq "Microsoft.CodeAnalysis.CSharp") {
-                      Write-Host "  Found: $($dll.Name) -> Roslyn $($ref.Version)"
-                      $collectedVersions += $ref.Version
-                      break
-                    }
+                  $assembly = $ctx.LoadFromStream($stream)
+                  $refs = $assembly.GetReferencedAssemblies()
+                  $csharpRef = $refs | Where-Object { $_.Name -eq "Microsoft.CodeAnalysis.CSharp" }
+                  if ($csharpRef) {
+                    Write-Host "  Found: $($dll.Name) -> Roslyn $($csharpRef.Version)"
+                    $collectedVersions += [Version]$csharpRef.Version.ToString()
                   }
                 } catch {
-                  Write-Host "  Failed to read $($dll.Name): $_"
+                  Write-Host "  Failed to load $($dll.Name): $_"
                 } finally {
-                  if ($peReader) { $peReader.Dispose() }
+                  $assembly = $null
                   if ($stream) { $stream.Dispose() }
+                  if ($ctx) { $ctx.Unload() }
                 }
               }
+              [GC]::Collect()
+              [GC]::WaitForPendingFinalizers()
 
               if ($collectedVersions.Count -gt 0) {
                 # Use the minimum Roslyn version: a package works with Unity if at least
