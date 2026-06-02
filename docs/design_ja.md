@@ -35,6 +35,17 @@ Note: Newer versions of Microsoft.CodeAnalysis.CSharp may be backported to LTS r
 
 バージョン番号はNuGet Galleryへのハイパーリンク
 
+### アナライザ固有の挿入文（includes/）
+
+`includes/<PackageId>.md` ファイルを作成すると、生成されたMarkdownの見出しと表の間にその内容が差し込まれます。
+注意書きや補足説明など、テーブルだけでは表現できないアナライザ固有の情報を記載するために使用します。
+例: [NUnit.Analyzers](../includes/NUnit.Analyzers.md)
+
+**制約:**
+
+- 挿入文に `| [バージョン番号](…)` 形式のバージョン表を入れると、`check-update-all-analyzers.yml` がローカルの最新バージョンを誤認識します
+- ファイルが存在しないアナライザでは何も差し込まれません（任意）
+
 ## GitHub Actionsワークフロー
 
 ワークフロー check-analyzers.yml は、次の手順で動作します。

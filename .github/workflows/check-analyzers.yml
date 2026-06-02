@@ -163,6 +163,20 @@ jobs:
           $md += "# $packageId"
           $md += ""
 
+          # Insert analyzer-specific supplementary text (a "partial") if one exists.
+          # Placed between the heading and the table so notes/descriptions render before the data.
+          # Some analyzers have no partial; in that case nothing is inserted.
+          # NOTE: relies on CWD being the repo root (GitHub Actions default). A future `cd` in this
+          # step would silently skip inclusion because Test-Path would return false without error.
+          $includeFile = Join-Path "includes" "$packageId.md"
+          if (Test-Path $includeFile) {
+            $includeText = (Get-Content $includeFile -Raw).Trim()
+            if ($includeText) {
+              $md += $includeText
+              $md += ""
+            }
+          }
+
           # Build header dynamically from $unityVersions keys
           $unityNames = @($unityVersions.Keys)
           $headerCells = @("Version", "Microsoft.CodeAnalysis.CSharp") + $unityNames
