@@ -1,4 +1,5 @@
 name: Check Roslyn Analyzer Versions
+run-name: Check Versions for ${{ github.event.inputs.nuget_package_id }}
 
 on:
   workflow_dispatch:
