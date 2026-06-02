@@ -272,6 +272,13 @@ jobs:
                 echo "[View Pull Request](${PR_URL})"
               } >> "$GITHUB_STEP_SUMMARY"
             else
-              echo "PR already exists or failed to create"
+              EXISTING_PR_URL=$(gh pr view "$BRANCH_NAME" --json url -q .url 2>/dev/null || true)
+              {
+                echo "## Pull Request Branch Updated"
+                echo ""
+                echo "The branch \`${BRANCH_NAME}\` has been updated for [${PACKAGE_ID}](https://www.nuget.org/packages/${PACKAGE_ID})."
+                echo ""
+                echo "[View Pull Request](${EXISTING_PR_URL})"
+              } >> "$GITHUB_STEP_SUMMARY"
             fi
           fi
