@@ -210,6 +210,7 @@ jobs:
           Get-Content $outputFile
 
       - name: Check for changes
+        id: check-changes
         run: |
           PACKAGE_ID="${{ inputs.nuget_package_id }}"
           if [ -z "$(git status --porcelain -- "${PACKAGE_ID}.md")" ]; then
@@ -218,10 +219,13 @@ jobs:
               echo ""
               echo "No changes detected for [${PACKAGE_ID}](https://www.nuget.org/packages/${PACKAGE_ID}). The version information is already up to date."
             } >> "$GITHUB_STEP_SUMMARY"
-            exit 1
+            echo "has_changes=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_changes=true" >> "$GITHUB_OUTPUT"
           fi
 
       - name: Create Pull Request
+        if: steps.check-changes.outputs.has_changes == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
@@ -254,9 +258,20 @@ jobs:
             } >> "$GITHUB_STEP_SUMMARY"
           else
             # Running from the original repository - create PR directly
-            gh pr create \
+            PR_URL=$(gh pr create \
               --title "Update ${PACKAGE_ID} version info" \
               --body "This PR updates the version compatibility information for [${PACKAGE_ID}](https://www.nuget.org/packages/${PACKAGE_ID})." \
               --base master \
-              --head "$BRANCH_NAME" || echo "PR already exists or failed to create"
+              --head "$BRANCH_NAME") || true
+            if [ -n "$PR_URL" ]; then
+              {
+                echo "## Pull Request Created"
+                echo ""
+                echo "A Pull Request has been created for [${PACKAGE_ID}](https://www.nuget.org/packages/${PACKAGE_ID})."
+                echo ""
+                echo "[View Pull Request](${PR_URL})"
+              } >> "$GITHUB_STEP_SUMMARY"
+            else
+              echo "PR already exists or failed to create"
+            fi
           fi
