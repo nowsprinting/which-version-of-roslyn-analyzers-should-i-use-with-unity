@@ -22,6 +22,7 @@ Unity uses specific versions of Microsoft.CodeAnalysis.CSharp, which means not a
 Check the markdown files in this repository for compatibility information on specific analyzers:
 
 <!-- Add links to analyzer files here as they are created -->
+- [BannedApiAnalyzers.Unity](BannedApiAnalyzers.Unity.md)
 - [IDisposableAnalyzers](IDisposableAnalyzers.md)
 - [Meziantou.Analyzer](Meziantou.Analyzer.md)
 - [Microsoft.CodeAnalysis.BannedApiAnalyzers](Microsoft.CodeAnalysis.BannedApiAnalyzers.md)
