@@ -1,5 +1,9 @@
 # Microsoft.CodeAnalysis.BannedApiAnalyzers
 
+> [!TIP]\
+> There's also a Unity-specific fork, [BannedApiAnalyzers.Unity](BannedApiAnalyzers.Unity.md).
+> That uses Unity additional files instead of BannedSymbols.txt — no .csproj edits required.
+
 | Version | Microsoft.CodeAnalysis.CSharp | Unity 2020.2 | Unity 2021.2 | Unity 2022.2 | Unity 6000.0 |
 |---------|-------------------------------|--------------|--------------|--------------|--------------|
 | [3.3.4](https://www.nuget.org/packages/Microsoft.CodeAnalysis.BannedApiAnalyzers/3.3.4) | 2.9.0.0 | ✅ | ✅ | ✅ | ✅ |
