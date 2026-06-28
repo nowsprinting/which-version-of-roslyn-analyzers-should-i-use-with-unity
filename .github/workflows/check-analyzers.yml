@@ -154,6 +154,7 @@ jobs:
             "Unity 2021.2" = [Version]"3.9.0.0"
             "Unity 2022.2" = [Version]"4.1.0.0"
             "Unity 6000.0" = [Version]"4.3.0.0"
+            "Unity 6000.5" = [Version]"4.10.0.0"
           }
 
           # Read version data
