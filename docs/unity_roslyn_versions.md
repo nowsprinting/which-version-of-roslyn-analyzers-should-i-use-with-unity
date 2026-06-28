@@ -1,5 +1,20 @@
 # Unity Roslyn Version Check Results
 
+## 6000.5.0f1
+
+| Path                                                                                                                                       | Microsoft.CodeAnalysis.CSharp |
+|--------------------------------------------------------------------------------------------------------------------------------------------|-------------------------------|
+| /opt/unity/Editor/Data/Tools/BuildPipeline/Unity.Analyzers.Common/                                                                         | 4.10.0.0                      |
+| /opt/unity/Editor/Data/Tools/BuildPipeline/Unity.Analyzers.LongLiving/                                                                     | 4.10.0.0                      |
+| /opt/unity/Editor/Data/Tools/BuildPipeline/Compilation/ApiUpdater/                                                                         | 4.4.0.0                       |
+| /opt/unity/Editor/Data/DotNetSdk/sdk/8.0.318/DotnetTools/dotnet-format/                                                                    | 4.10.0.0                      |
+| /opt/unity/Editor/Data/DotNetSdk/sdk/8.0.318/Roslyn/bincore/                                                                               | 4.10.0.0                      |
+| /opt/unity/Editor/Data/Resources/PackageManager/BuiltInPackages/com.unity.entities/Unity.Entities/SourceGenerators/Source~/Infrastructure/ | 3.8.0.0                       |
+| /opt/unity/Editor/Data/MonoBleedingEdge/lib/mono/msbuild/Current/bin/Roslyn/                                                               | 3.7.0.0                       |
+| /opt/unity/Editor/Data/MonoBleedingEdge/lib/mono/4.5/                                                                                      | 3.7.0.0                       |
+
+Not backported to: 6000.3.18f1, 6000.0.78f1
+
 ## 6000.4.0f1
 
 | Path                                                                                                                                       | Microsoft.CodeAnalysis.CSharp |

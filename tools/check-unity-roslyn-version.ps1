@@ -48,7 +48,7 @@ Write-Host ""
 
 # Pull Docker image
 Write-Host "Pulling Docker image..."
-docker pull $imageName
+docker pull --platform linux/amd64 $imageName
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to pull Docker image: $imageName"
     exit 1
@@ -56,7 +56,7 @@ if ($LASTEXITCODE -ne 0) {
 
 # Create container (not started)
 Write-Host "Creating container..."
-docker create --name $containerName $imageName | Out-Null
+docker create --platform linux/amd64 --name $containerName $imageName | Out-Null
 if ($LASTEXITCODE -ne 0) {
     Write-Error "Failed to create container"
     exit 1
@@ -65,7 +65,7 @@ if ($LASTEXITCODE -ne 0) {
 try {
     # Find Microsoft.CodeAnalysis.CSharp.dll in the container
     Write-Host "Searching for Microsoft.CodeAnalysis.CSharp.dll..."
-    $dllPaths = docker run --rm $imageName find /opt/unity -name "Microsoft.CodeAnalysis.CSharp.dll" 2>$null
+    $dllPaths = docker run --rm --platform linux/amd64 $imageName find /opt/unity -name "Microsoft.CodeAnalysis.CSharp.dll" 2>$null
 
     if (-not $dllPaths) {
         Write-Warning "No Microsoft.CodeAnalysis.CSharp.dll found in the Unity installation."
