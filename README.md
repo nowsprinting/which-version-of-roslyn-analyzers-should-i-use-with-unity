@@ -28,6 +28,7 @@ Check the markdown files in this repository for compatibility information on spe
 - [Meziantou.Analyzer](Meziantou.Analyzer.md)
 - [Microsoft.CodeAnalysis.BannedApiAnalyzers](Microsoft.CodeAnalysis.BannedApiAnalyzers.md)
 - [Microsoft.Unity.Analyzers](Microsoft.Unity.Analyzers.md)
+- [Microsoft.VisualStudio.Threading.Analyzers](Microsoft.VisualStudio.Threading.Analyzers.md)
 - [NSubstitute.Analyzers.CSharp](NSubstitute.Analyzers.CSharp.md)
 - [NUnit.Analyzers](NUnit.Analyzers.md)
 - [Roslynator.Analyzers](Roslynator.Analyzers.md)
