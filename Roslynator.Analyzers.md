@@ -2,6 +2,7 @@
 
 | Version | Microsoft.CodeAnalysis.CSharp | Unity 2020.2 | Unity 2021.2 | Unity 2022.2 | Unity 6000.0 | Unity 6000.5 |
 |---------|-------------------------------|--------------|--------------|--------------|--------------|--------------|
+| [4.16.1](https://www.nuget.org/packages/Roslynator.Analyzers/4.16.1) | 3.8.0.0 | ❌ | ✅ | ✅ | ✅ | ✅ |
 | [4.16.0](https://www.nuget.org/packages/Roslynator.Analyzers/4.16.0) | 3.8.0.0 | ❌ | ✅ | ✅ | ✅ | ✅ |
 | [4.15.0](https://www.nuget.org/packages/Roslynator.Analyzers/4.15.0) | 3.8.0.0 | ❌ | ✅ | ✅ | ✅ | ✅ |
 | [4.14.1](https://www.nuget.org/packages/Roslynator.Analyzers/4.14.1) | 3.8.0.0 | ❌ | ✅ | ✅ | ✅ | ✅ |
