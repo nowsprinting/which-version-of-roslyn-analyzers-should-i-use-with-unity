@@ -2,6 +2,24 @@
 
 | Version | Microsoft.CodeAnalysis.CSharp | Unity 2020.2 | Unity 2021.2 | Unity 2022.2 | Unity 6000.0 | Unity 6000.5 |
 |---------|-------------------------------|--------------|--------------|--------------|--------------|--------------|
+| [3.0.195](https://www.nuget.org/packages/Meziantou.Analyzer/3.0.195) | 4.8.0.0 | ❌ | ❌ | ❌ | ❌ | ✅ |
+| [3.0.194](https://www.nuget.org/packages/Meziantou.Analyzer/3.0.194) | 4.8.0.0 | ❌ | ❌ | ❌ | ❌ | ✅ |
+| [3.0.193](https://www.nuget.org/packages/Meziantou.Analyzer/3.0.193) | 4.8.0.0 | ❌ | ❌ | ❌ | ❌ | ✅ |
+| [3.0.192](https://www.nuget.org/packages/Meziantou.Analyzer/3.0.192) | 4.8.0.0 | ❌ | ❌ | ❌ | ❌ | ✅ |
+| [3.0.191](https://www.nuget.org/packages/Meziantou.Analyzer/3.0.191) | 4.8.0.0 | ❌ | ❌ | ❌ | ❌ | ✅ |
+| [3.0.190](https://www.nuget.org/packages/Meziantou.Analyzer/3.0.190) | 4.8.0.0 | ❌ | ❌ | ❌ | ❌ | ✅ |
+| [3.0.189](https://www.nuget.org/packages/Meziantou.Analyzer/3.0.189) | 4.8.0.0 | ❌ | ❌ | ❌ | ❌ | ✅ |
+| [3.0.188](https://www.nuget.org/packages/Meziantou.Analyzer/3.0.188) | 4.8.0.0 | ❌ | ❌ | ❌ | ❌ | ✅ |
+| [3.0.187](https://www.nuget.org/packages/Meziantou.Analyzer/3.0.187) | 4.8.0.0 | ❌ | ❌ | ❌ | ❌ | ✅ |
+| [3.0.186](https://www.nuget.org/packages/Meziantou.Analyzer/3.0.186) | 4.8.0.0 | ❌ | ❌ | ❌ | ❌ | ✅ |
+| [3.0.185](https://www.nuget.org/packages/Meziantou.Analyzer/3.0.185) | 4.8.0.0 | ❌ | ❌ | ❌ | ❌ | ✅ |
+| [3.0.184](https://www.nuget.org/packages/Meziantou.Analyzer/3.0.184) | 4.8.0.0 | ❌ | ❌ | ❌ | ❌ | ✅ |
+| [3.0.183](https://www.nuget.org/packages/Meziantou.Analyzer/3.0.183) | 4.8.0.0 | ❌ | ❌ | ❌ | ❌ | ✅ |
+| [3.0.182](https://www.nuget.org/packages/Meziantou.Analyzer/3.0.182) | 4.8.0.0 | ❌ | ❌ | ❌ | ❌ | ✅ |
+| [3.0.181](https://www.nuget.org/packages/Meziantou.Analyzer/3.0.181) | 4.8.0.0 | ❌ | ❌ | ❌ | ❌ | ✅ |
+| [3.0.180](https://www.nuget.org/packages/Meziantou.Analyzer/3.0.180) | 4.8.0.0 | ❌ | ❌ | ❌ | ❌ | ✅ |
+| [3.0.179](https://www.nuget.org/packages/Meziantou.Analyzer/3.0.179) | 4.8.0.0 | ❌ | ❌ | ❌ | ❌ | ✅ |
+| [3.0.178](https://www.nuget.org/packages/Meziantou.Analyzer/3.0.178) | 4.8.0.0 | ❌ | ❌ | ❌ | ❌ | ✅ |
 | [3.0.177](https://www.nuget.org/packages/Meziantou.Analyzer/3.0.177) | 4.8.0.0 | ❌ | ❌ | ❌ | ❌ | ✅ |
 | [3.0.176](https://www.nuget.org/packages/Meziantou.Analyzer/3.0.176) | 4.8.0.0 | ❌ | ❌ | ❌ | ❌ | ✅ |
 | [3.0.175](https://www.nuget.org/packages/Meziantou.Analyzer/3.0.175) | 4.8.0.0 | ❌ | ❌ | ❌ | ❌ | ✅ |
