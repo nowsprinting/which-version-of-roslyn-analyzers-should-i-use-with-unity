@@ -33,6 +33,7 @@ Check the markdown files in this repository for compatibility information on spe
 - [NSubstitute.Analyzers.CSharp](NSubstitute.Analyzers.CSharp.md)
 - [NUnit.Analyzers](NUnit.Analyzers.md)
 - [Roslynator.Analyzers](Roslynator.Analyzers.md)
+- [UTFAnalyzers](UTFAnalyzers.md)
 
 ## Want to use an analyzer not listed here?
 
