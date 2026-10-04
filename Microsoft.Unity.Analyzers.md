@@ -2,6 +2,7 @@
 
 | Version | Microsoft.CodeAnalysis.CSharp | Unity 2020.2 | Unity 2021.2 | Unity 2022.2 | Unity 6000.0 | Unity 6000.5 |
 |---------|-------------------------------|--------------|--------------|--------------|--------------|--------------|
+| [1.28.0](https://www.nuget.org/packages/Microsoft.Unity.Analyzers/1.28.0) | 3.11.0.0 | ❌ | ❌ | ✅ | ✅ | ✅ |
 | [1.27.0](https://www.nuget.org/packages/Microsoft.Unity.Analyzers/1.27.0) | 3.11.0.0 | ❌ | ❌ | ✅ | ✅ | ✅ |
 | [1.26.0](https://www.nuget.org/packages/Microsoft.Unity.Analyzers/1.26.0) | 3.11.0.0 | ❌ | ❌ | ✅ | ✅ | ✅ |
 | [1.25.0](https://www.nuget.org/packages/Microsoft.Unity.Analyzers/1.25.0) | 3.11.0.0 | ❌ | ❌ | ✅ | ✅ | ✅ |
