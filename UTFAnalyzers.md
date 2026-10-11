@@ -9,6 +9,7 @@
 
 | Version | Microsoft.CodeAnalysis.CSharp | Unity 2020.2 | Unity 2021.2 | Unity 2022.2 | Unity 6000.0 | Unity 6000.5 |
 |---------|-------------------------------|--------------|--------------|--------------|--------------|--------------|
+| [1.4.3](https://www.nuget.org/packages/UTFAnalyzers/1.4.3) | 4.3.0.0 | ❌ | ❌ | ❌ | ✅ | ✅ |
 | [1.4.2](https://www.nuget.org/packages/UTFAnalyzers/1.4.2) | 4.3.0.0 | ❌ | ❌ | ❌ | ✅ | ✅ |
 | [1.4.1](https://www.nuget.org/packages/UTFAnalyzers/1.4.1) | 4.3.0.0 | ❌ | ❌ | ❌ | ✅ | ✅ |
 | [1.4.0](https://www.nuget.org/packages/UTFAnalyzers/1.4.0) | 4.3.0.0 | ❌ | ❌ | ❌ | ✅ | ✅ |
