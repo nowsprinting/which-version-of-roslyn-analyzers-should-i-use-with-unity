@@ -2,6 +2,7 @@
 
 | Version | Microsoft.CodeAnalysis.CSharp | Unity 2020.2 | Unity 2021.2 | Unity 2022.2 | Unity 6000.0 | Unity 6000.5 |
 |---------|-------------------------------|--------------|--------------|--------------|--------------|--------------|
+| [18.12.1](https://www.nuget.org/packages/Microsoft.VisualStudio.Threading.Analyzers/18.12.1) | 4.11.0.0 | ❌ | ❌ | ❌ | ❌ | ❌ |
 | [18.7.23](https://www.nuget.org/packages/Microsoft.VisualStudio.Threading.Analyzers/18.7.23) | 3.11.0.0 | ❌ | ❌ | ✅ | ✅ | ✅ |
 | [17.14.15](https://www.nuget.org/packages/Microsoft.VisualStudio.Threading.Analyzers/17.14.15) | 3.11.0.0 | ❌ | ❌ | ✅ | ✅ | ✅ |
 | [17.13.61](https://www.nuget.org/packages/Microsoft.VisualStudio.Threading.Analyzers/17.13.61) | 3.11.0.0 | ❌ | ❌ | ✅ | ✅ | ✅ |
