@@ -2,6 +2,7 @@
 
 | Version | Microsoft.CodeAnalysis.CSharp | Unity 2020.2 | Unity 2021.2 | Unity 2022.2 | Unity 6000.0 | Unity 6000.5 |
 |---------|-------------------------------|--------------|--------------|--------------|--------------|--------------|
+| [10.0.403](https://www.nuget.org/packages/Microsoft.CodeAnalysis.NetAnalyzers/10.0.403) | 3.11.0.0 | ❌ | ❌ | ✅ | ✅ | ✅ |
 | [10.0.402](https://www.nuget.org/packages/Microsoft.CodeAnalysis.NetAnalyzers/10.0.402) | 3.11.0.0 | ❌ | ❌ | ✅ | ✅ | ✅ |
 | [10.0.401](https://www.nuget.org/packages/Microsoft.CodeAnalysis.NetAnalyzers/10.0.401) | 3.11.0.0 | ❌ | ❌ | ✅ | ✅ | ✅ |
 | [10.0.400](https://www.nuget.org/packages/Microsoft.CodeAnalysis.NetAnalyzers/10.0.400) | 3.11.0.0 | ❌ | ❌ | ✅ | ✅ | ✅ |
@@ -14,6 +15,7 @@
 | [10.0.202](https://www.nuget.org/packages/Microsoft.CodeAnalysis.NetAnalyzers/10.0.202) | 3.11.0.0 | ❌ | ❌ | ✅ | ✅ | ✅ |
 | [10.0.201](https://www.nuget.org/packages/Microsoft.CodeAnalysis.NetAnalyzers/10.0.201) | 3.11.0.0 | ❌ | ❌ | ✅ | ✅ | ✅ |
 | [10.0.200](https://www.nuget.org/packages/Microsoft.CodeAnalysis.NetAnalyzers/10.0.200) | 3.11.0.0 | ❌ | ❌ | ✅ | ✅ | ✅ |
+| [10.0.114](https://www.nuget.org/packages/Microsoft.CodeAnalysis.NetAnalyzers/10.0.114) | 3.11.0.0 | ❌ | ❌ | ✅ | ✅ | ✅ |
 | [10.0.113](https://www.nuget.org/packages/Microsoft.CodeAnalysis.NetAnalyzers/10.0.113) | 3.11.0.0 | ❌ | ❌ | ✅ | ✅ | ✅ |
 | [10.0.112](https://www.nuget.org/packages/Microsoft.CodeAnalysis.NetAnalyzers/10.0.112) | 3.11.0.0 | ❌ | ❌ | ✅ | ✅ | ✅ |
 | [10.0.111](https://www.nuget.org/packages/Microsoft.CodeAnalysis.NetAnalyzers/10.0.111) | 3.11.0.0 | ❌ | ❌ | ✅ | ✅ | ✅ |
