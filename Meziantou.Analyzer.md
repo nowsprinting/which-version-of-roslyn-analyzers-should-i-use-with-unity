@@ -2,6 +2,9 @@
 
 | Version | Microsoft.CodeAnalysis.CSharp | Unity 2020.2 | Unity 2021.2 | Unity 2022.2 | Unity 6000.0 | Unity 6000.5 |
 |---------|-------------------------------|--------------|--------------|--------------|--------------|--------------|
+| [3.0.320](https://www.nuget.org/packages/Meziantou.Analyzer/3.0.320) | 4.8.0.0 | ❌ | ❌ | ❌ | ❌ | ✅ |
+| [3.0.319](https://www.nuget.org/packages/Meziantou.Analyzer/3.0.319) | 4.8.0.0 | ❌ | ❌ | ❌ | ❌ | ✅ |
+| [3.0.318](https://www.nuget.org/packages/Meziantou.Analyzer/3.0.318) | 4.8.0.0 | ❌ | ❌ | ❌ | ❌ | ✅ |
 | [3.0.317](https://www.nuget.org/packages/Meziantou.Analyzer/3.0.317) | 4.8.0.0 | ❌ | ❌ | ❌ | ❌ | ✅ |
 | [3.0.316](https://www.nuget.org/packages/Meziantou.Analyzer/3.0.316) | 4.8.0.0 | ❌ | ❌ | ❌ | ❌ | ✅ |
 | [3.0.315](https://www.nuget.org/packages/Meziantou.Analyzer/3.0.315) | 4.8.0.0 | ❌ | ❌ | ❌ | ❌ | ✅ |
