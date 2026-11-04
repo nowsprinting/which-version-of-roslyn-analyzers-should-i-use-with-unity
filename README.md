@@ -6,7 +6,7 @@ Unity uses specific versions of Microsoft.CodeAnalysis.CSharp, which means not a
 
 ## Supported Unity Versions
 
-| Unity Version     | Microsoft.CodeAnalysis.CSharp version                                                                                                              |
+| Unity version     | Microsoft.CodeAnalysis.CSharp version                                                                                                              |
 |-------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
 | Unity 6000.0      | 4.3 (stated in [Manual: Create and use a source generator](https://docs.unity3d.com/6000.0/Documentation/Manual/create-source-generator.html))     |
 | Unity 2022.3.12f1 | 4.3 (backported)                                                                                                                                   |
