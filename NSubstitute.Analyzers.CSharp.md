@@ -1,5 +1,8 @@
 # NSubstitute.Analyzers.CSharp
 
+> [!TIP]\
+> You can install [NSubstitute.Analyzers.CSharp as a UPM package](https://openupm.com/packages/org.nuget.nsubstitute.analyzers.csharp/) converted by UnityNuGet.
+
 | Version | Microsoft.CodeAnalysis.CSharp | Unity 2020.2 | Unity 2021.2 | Unity 2022.2 | Unity 6000.0 |
 |---------|-------------------------------|--------------|--------------|--------------|--------------|
 | [1.0.17](https://www.nuget.org/packages/NSubstitute.Analyzers.CSharp/1.0.17) | 2.8.0.0 | ✅ | ✅ | ✅ | ✅ |
