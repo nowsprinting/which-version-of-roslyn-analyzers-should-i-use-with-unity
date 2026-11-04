@@ -4,7 +4,7 @@ This repository provides compatibility information for Roslyn analyzers and sour
 
 Unity uses specific versions of Microsoft.CodeAnalysis.CSharp, which means not all analyzer versions work with all Unity versions. This repository helps you find the right analyzer version for your Unity project.
 
-## Supported Unity Versions
+## Supported Unity versions
 
 | Unity version     | Microsoft.CodeAnalysis.CSharp version                                                                                                              |
 |-------------------|----------------------------------------------------------------------------------------------------------------------------------------------------|
@@ -17,7 +17,7 @@ Unity uses specific versions of Microsoft.CodeAnalysis.CSharp, which means not a
 > [!NOTE]  
 > `Microsoft.CodeAnalysis.CSharp` version included in the Unity editor is checked using [tools/check-unity-roslyn-version.ps1](./tools/check-unity-roslyn-version.ps1).
 
-## Analyzer Compatibility
+## Analyzer compatibility
 
 Check the markdown files in this repository for compatibility information on specific analyzers:
 

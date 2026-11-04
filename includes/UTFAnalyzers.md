@@ -1,5 +1,5 @@
 > [!TIP]\
-> You can install the [UPM package that bundles UTFAnalyzers](https://openupm.com/packages/com.nowsprinting.test-framework.analyzers/).\
+> You can install the [UPM package that bundles UTFAnalyzers](https://openupm.com/packages/com.nowsprinting.test-framework.analyzers/).
 > The UPM package provides the following benefits:
 >
 > - No need to manually add a reference to the test assembly definition file (asmdef)
