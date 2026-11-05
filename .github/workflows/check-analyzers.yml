@@ -141,6 +141,24 @@ jobs:
           Write-Host "Results saved to version-data.json"
           Get-Content "version-data.json"
 
+      - name: Generate UnityNuGet tip
+        if: hashFiles(format('includes/{0}.md', inputs.nuget_package_id)) == ''
+        shell: pwsh
+        run: |
+          $packageId = "${{ inputs.nuget_package_id }}"
+          $includeFile = Join-Path "includes" "$packageId.md"
+
+          $registry = Invoke-RestMethod "https://raw.githubusercontent.com/bdovaz/UnityNuGet/master/registry.json"
+          if ($registry.PSObject.Properties.Name -notcontains $packageId) { exit 0 }
+
+          $upmName = "org.nuget.$($packageId.ToLower())"
+
+          @(
+            "> [!TIP]\"
+            "> You can install [$packageId as a UPM package](https://openupm.com/packages/$upmName/) converted by UnityNuGet."
+          ) | Out-File -FilePath $includeFile -Encoding utf8
+          Write-Host "Generated $includeFile"
+
       - name: Generate Markdown
         shell: pwsh
         run: |
@@ -237,7 +255,7 @@ jobs:
           git config user.email "github-actions[bot]@users.noreply.github.com"
 
           git checkout -b "$BRANCH_NAME"
-          git add "${PACKAGE_ID}.md"
+          git add "${PACKAGE_ID}.md" includes/
           git commit -m "Update ${PACKAGE_ID} version info"
           git push -u origin "$BRANCH_NAME" --force
 
