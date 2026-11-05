@@ -182,7 +182,7 @@ jobs:
           $unityNames = @($unityVersions.Keys)
           $headerCells = @("Version", "Microsoft.CodeAnalysis.CSharp") + $unityNames
           $md += "| " + ($headerCells -join " | ") + " |"
-          $separatorCells = @("---------", "-------------------------------") + ($unityNames | ForEach-Object { "--------------" })
+          $separatorCells = @("---------", "-------------------------------") + ($unityNames | ForEach-Object { ":------------:" })
           $md += "|" + ($separatorCells -join "|") + "|"
 
           # Sort by version descending
