@@ -4,7 +4,8 @@
 > You can install [Meziantou.Analyzer as a UPM package](https://openupm.com/packages/org.nuget.meziantou.analyzer/) converted by UnityNuGet.
 
 | Version | Microsoft.CodeAnalysis.CSharp | Unity 2020.2 | Unity 2021.2 | Unity 2022.2 | Unity 6000.0 |
-|---------|-------------------------------|--------------|--------------|--------------|--------------|
+|---------|-------------------------------|:------------:|:------------:|:------------:|:------------:|
+| [3.0.321](https://www.nuget.org/packages/Meziantou.Analyzer/3.0.321) | 4.8.0.0 | ❌ | ❌ | ❌ | ❌ |
 | [3.0.320](https://www.nuget.org/packages/Meziantou.Analyzer/3.0.320) | 4.8.0.0 | ❌ | ❌ | ❌ | ❌ |
 | [3.0.319](https://www.nuget.org/packages/Meziantou.Analyzer/3.0.319) | 4.8.0.0 | ❌ | ❌ | ❌ | ❌ |
 | [3.0.318](https://www.nuget.org/packages/Meziantou.Analyzer/3.0.318) | 4.8.0.0 | ❌ | ❌ | ❌ | ❌ |
